@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>roundrobin</title>
+</head>
+<body>
+    <p>// implementing Round Robin with AT = 0
+        #include <stdio.h>
+        struct process_struct
+        {
+            int pid;
+            // int at;
+            int bt;
+            int ct;
+            int tat;
+            int wt;
+            int rbt;
+            // int rt;
+            // int start_time;
+        } p[3];
+        int tq = 2;
+        int main()
+        {
+            int n = 3;
+            for (int i = 0; i < 3; i++)
+            {
+                printf("Enter process %d BT : ", i);
+                scanf("%d", &p[i].bt);
+            }
+        
+            for (int k = 0; k < n; k++)
+            {
+                p[k].rbt = p[k].bt;
+            }
+        
+            int x = 0, y = 0, i = 0;
+        
+            while (y != n)
+            {
+                if (p[i].rbt > 0)
+                {
+                    if (p[i].rbt > tq)
+                    {
+                        x += tq;
+                        p[i].rbt = p[i].rbt - tq;
+                    }
+                    else
+                    {
+                        x += p[i].rbt;
+                        p[i].rbt = 0;
+                        p[i].tat = p[i].ct = x;
+                        p[i].wt = p[i].tat - p[i].bt;
+                        y++;
+                    }
+                }
+        
+                if (i == n - 1)
+                    i = 0;
+                else
+                    i++;
+            }
+           printf("\nat | bt | ct | tat | wt");
+            for(int i=0;i<3;i++){
+               printf("\n0   | %d  | %d  | %d   | %d",p[i].bt,p[i].ct,p[i].tat,p[i].wt);
+            }
+        
+            int awt = 0, atat = 0;
+            for(int i = 0; i < n; i++) {
+                awt += p[i].wt;
+                atat += p[i].tat;
+            }
+            
+            printf("\n\nAvg Waiting Time: %.2f", (float)awt/n);
+            printf("\nAvg Turn Around Time: %.2f\n", (float)atat/n);
+        
+        
+            return 0;
+        }</p>
+</body>
+</html>

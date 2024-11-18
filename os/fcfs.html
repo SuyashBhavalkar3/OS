@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fcfs</title>
+</head>
+<body>
+    <p>#include<stdio.h>
+        struct process_struct{
+            int pid;
+            int at;
+            int bt;
+            int ct;
+            int tat;
+            int wt;
+            int rt;
+            int start_time;
+        }ps[3];
+        
+        void sortProcesses(struct process_struct ps[], int n){
+            struct process_struct temp;
+            for(int i=0; i<n-1; i++){
+                for(int j=i+1; i<n-i-1; i++){
+                    if(ps[j].at > ps[j+1].at){
+                        temp = ps[j];
+                        ps[j] = ps[j+1];
+                        ps[j+1] = temp;
+                    }
+                }
+            }
+        }
+        
+        int main(){
+            int n = 3;
+            for(int i=0; i<3; i++){
+                printf("Enter process %d AT : ", i);
+                scanf("%d", &ps[i].at);
+                printf("Enter process %d BT : ", i);
+                scanf("%d", &ps[i].bt);
+            }
+        
+            sortProcesses(ps,n);
+        
+            for(int i=0; i<3; i++){
+                if(i == 0){
+                    ps[i].start_time = 0;
+                }else{
+                    if(ps[i].at > ps[i-1].ct){
+                        ps[i].start_time = ps[i].at;
+                    }else if(ps[i].at < ps[i-1].ct || ps[i].at == ps[i-1].ct){
+                        ps[i].start_time = ps[i-1].ct;
+                    }
+                }
+        
+                ps[i].ct = ps[i].start_time + ps[i].bt;
+                ps[i].tat = ps[i].ct - ps[i].at;
+                ps[i].wt = ps[i].tat - ps[i].bt;
+                ps[i].rt = ps[i].wt;
+        
+            }
+        
+            printf("\n| PID | AT  | BT  | CT  | TAT | WT  | RT  |");
+            
+            
+                for (int i = 0; i < n; i++) {
+                printf("\n| %3d | %3d | %3d | %3d | %3d | %3d | %3d |", 
+                       ps[i].pid, ps[i].at, ps[i].bt, ps[i].ct, ps[i].tat, ps[i].wt, ps[i].rt);
+                }
+        
+                printf("\n");
+                
+            int sumawt = 0, sumatat = 0, sumart=0;
+            for(int i=0; i<3; i++){
+                sumawt += ps[i].wt;
+                sumatat += ps[i].tat;
+                sumart += ps[i].rt;
+            }
+            int art = (float)(sumart)/3;
+            int atat = (float)(sumatat)/3;
+            int awt = (float)(sumawt)/3;
+        
+            printf("AWT : %d\n", awt);
+            printf("ATAT : %d\n", atat);
+            printf("ART : %d\n", art);
+        
+            return 0;
+        }</p>
+</body>
+</html>
