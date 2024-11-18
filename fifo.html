@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        #include<stdio.h>
+            int main()
+            {
+                int f,p,pos=0,flag=0;
+                int page[50];
+                int frame[10]={-1,-1,-1};
+               int pagefault=0;
+            
+            
+               printf("enter no of frames");
+               scanf("%d",&f);
+            
+               printf("enter no of pages");
+               scanf("%d",&p);
+               printf("enter pages");
+               for(int i=0;i<p;i++)
+               {
+                  scanf("%d",&page[i]);
+               }
+            
+               for(int i=0;i<p;i++)
+               {
+                flag=0;
+                for(int j=0;j<f;j++)
+                {
+                   if(page[i]==frame[j])
+                   {
+                    flag=1;
+                    printf("Hit: ");
+                    break;
+                   }
+                }
+                   if(flag==0)
+                   {
+                    frame[pos]=page[i];
+                    pagefault++;
+                    pos++;
+                    printf("fault :");
+                   }
+            
+                   if(pos==f)
+                   {
+                    pos=0;
+                   }
+                   
+            
+                   for(int i=0;i<f;i++)
+                   {
+                    printf("%d ",frame[i]);
+                   }
+                   printf("\n");
+            
+                
+               }
+            
+               printf("total no of page fault is :-%d ",pagefault);
+            
+            }
+    </p>
+</body>
+</html>

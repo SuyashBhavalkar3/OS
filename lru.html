@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>#include <stdio.h>
+
+        // Function to find the least recently used frame
+        int LRU(int time[], int f) {
+            int min = 0;
+            for (int i = 1; i < f; i++) {
+                if (time[i] < time[min]) {
+                    min = i;
+                }
+            }
+            return min;
+        }
+        
+        int main() {
+            int page[50], frame[10], time[10];
+            int p, f, pos = 0, flag1 = 0, flag2 = 0, count = 0, fault = 0;
+        
+            // Input the number of frames
+            printf("Enter the number of frames: ");
+            scanf("%d", &f);
+        
+            // Initialize the frame array and time array
+            for (int i = 0; i < f; i++) {
+                frame[i] = -1; // -1 indicates an empty frame
+                time[i] = 0;
+            }
+        
+            // Input the number of pages
+            printf("Enter the number of pages: ");
+            scanf("%d", &p);
+        
+            // Input the page references
+            printf("Enter the page references: ");
+            for (int i = 0; i < p; i++) {
+                scanf("%d", &page[i]);
+            }
+        
+            // Process each page
+            for (int i = 0; i < p; i++) {
+                flag1 = 0;
+                flag2 = 0;
+        
+                // Check if the page is already in a frame (hit case)
+                for (int j = 0; j < f; j++) {
+                    if (frame[j] == page[i]) {
+                        count++;
+                        time[j] = count; // Update the last used time
+                        flag1 = 1;
+                        flag2 = 1;
+                        break;
+                    }
+                }
+        
+                // If the page is not in a frame
+                if (flag1 == 0) {
+                    // Check for an empty frame
+                    for (int j = 0; j < f; j++) {
+                        if (frame[j] == -1) {
+                            frame[j] = page[i];
+                            count++;
+                            time[j] = count;
+                            fault++; // Increment fault count
+                            flag2 = 1;
+                            break;
+                        }
+                    }
+                }
+        
+                // If no empty frame is available, replace the least recently used page
+                if (flag2 == 0) {
+                    pos = LRU(time, f);
+                    frame[pos] = page[i];
+                    count++;
+                    time[pos] = count;
+                    fault++; // Increment fault count
+                }
+        
+                // Print the current state of the frames
+                printf("Frame state after processing page %d: ", page[i]);
+                for (int j = 0; j < f; j++) {
+                    if (frame[j] == -1) {
+                        printf(" -");
+                    } else {
+                        printf(" %d", frame[j]);
+                    }
+                }
+                printf("\n");
+            }
+        
+            printf("\nTotal page faults: %d\n", fault);
+        
+            return 0;
+        }</p>
+</body>
+</html>
